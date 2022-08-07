@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/qurey-react/static/css/main.073c9b0a.css",
+    "main.js": "/qurey-react/static/js/main.0a6a22fa.js",
+    "static/js/787.1c246ca2.chunk.js": "/qurey-react/static/js/787.1c246ca2.chunk.js",
+    "index.html": "/qurey-react/index.html",
+    "main.073c9b0a.css.map": "/qurey-react/static/css/main.073c9b0a.css.map",
+    "main.0a6a22fa.js.map": "/qurey-react/static/js/main.0a6a22fa.js.map",
+    "787.1c246ca2.chunk.js.map": "/qurey-react/static/js/787.1c246ca2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.0a6a22fa.js"
+  ]
+}
