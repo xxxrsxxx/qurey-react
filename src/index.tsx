@@ -21,7 +21,7 @@ let dev = false;
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {},
+    queries: { staleTime: Infinity },
   },
 });
 
@@ -36,7 +36,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
+  <>
     <QueryClientProvider client={queryClient}>
       {/* The rest of your application */}
       <ReactQueryDevtools initialIsOpen={dev} />
@@ -45,7 +45,7 @@ root.render(
         <App />
       </BrowserRouter>
     </QueryClientProvider>
-  </React.StrictMode>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

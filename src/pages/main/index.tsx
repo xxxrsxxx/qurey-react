@@ -1,38 +1,53 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { $_get, $_patch } from "../../utils/api";
 import Fetch from "../../components/Fetch";
 
+interface Dummy {
+  key: string;
+  arrayDummy: [];
+  list: [];
+}
+
 const Main = () => {
+  const [dummy, setDummy] = useState<Dummy | {}>({});
+
   const queryClient = useQueryClient();
-  const { data, status, isFetching } = useQuery(
+
+  const mutations = () => {
+    const patch = useMutation((arg: number) => $_patch("patch", { num: arg }), {
+      onSuccess: (res) => {
+        // 쿼리 무효화
+        queryClient.invalidateQueries(["mock"]);
+      },
+    });
+
+    return { patch };
+  };
+  const mutation = mutations();
+
+  const { data, isFetching, isLoading } = useQuery(
     ["mock"],
     () => $_get("mock", {}),
     {}
   );
-  const mutation = useMutation(
-    (arg: number) => $_patch("patch", { num: arg }),
-    {
-      onSuccess: (res) => {
-        console.log("mutation", res);
-        // 쿼리 무효화
-        queryClient.invalidateQueries(["mock"]);
-      },
-    }
-  );
-  const postHandler = (event: React.MouseEvent) => {
+
+  const postHandler = useCallback((event: React.MouseEvent) => {
     event.preventDefault();
-    mutation.mutate(1);
+    mutation.patch.mutate(1);
+  }, []);
+
+  const FetchProps = {
+    data,
+    postHandler,
   };
-  console.log("status", status, "isFetching", isFetching);
-  if (status === "loading") return <h1>Loading...</h1>;
+
+  if (isLoading) return <h1>Loading...</h1>;
   if (isFetching) return <h1>isFetching...</h1>;
   return (
     <>
       <h1>Main</h1>
-      <button onClick={postHandler}>button</button>
-      <div>{data?.arrayDummy}</div>
-      <Fetch />
+      <Fetch {...FetchProps} />
     </>
   );
 };
